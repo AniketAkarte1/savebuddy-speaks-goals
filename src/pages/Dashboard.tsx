@@ -15,11 +15,17 @@ import {
   LogOut,
   Calendar,
   Star,
-  Wallet
+  Wallet,
+  BarChart3,
+  PieChart
 } from 'lucide-react';
 import VoiceButton from '@/components/VoiceButton';
 import LanguageSelector from '@/components/LanguageSelector';
+import HoverExplainer from '@/components/HoverExplainer';
+import GoalModal from '@/components/GoalModal';
+import DashboardCharts from '@/components/DashboardCharts';
 import { useVoiceInteraction } from '@/hooks/useVoiceInteraction';
+import { useToast } from '@/hooks/use-toast';
 
 interface SavingsGoal {
   id: string;
@@ -34,6 +40,7 @@ const Dashboard: React.FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { speak } = useVoiceInteraction();
+  const { toast } = useToast();
 
   const [savingsData] = useState({
     totalSavings: 15750,
@@ -44,7 +51,7 @@ const Dashboard: React.FC = () => {
     savingStreak: 23
   });
 
-  const [goals] = useState<SavingsGoal[]>([
+  const [goals, setGoals] = useState<SavingsGoal[]>([
     {
       id: '1',
       name: 'Emergency Fund',
@@ -71,6 +78,9 @@ const Dashboard: React.FC = () => {
     }
   ]);
 
+  const [isGoalModalOpen, setIsGoalModalOpen] = useState(false);
+  const [showCharts, setShowCharts] = useState(false);
+
   useEffect(() => {
     const timer = setTimeout(() => {
       speak(t('audio.dashboardGuide'));
@@ -84,7 +94,8 @@ const Dashboard: React.FC = () => {
         navigate('/payment');
         break;
       case 'CREATE_GOAL':
-        speak('Goal creation feature coming soon!');
+        setIsGoalModalOpen(true);
+        speak('Opening goal creation form');
         break;
       case 'CHECK_BALANCE':
         speak(`Your total savings is ₹${savingsData.totalSavings.toLocaleString()}`);
@@ -98,8 +109,12 @@ const Dashboard: React.FC = () => {
       case 'LOGOUT':
         handleLogout();
         break;
+      case 'SHOW_CHARTS':
+        setShowCharts(!showCharts);
+        speak(showCharts ? 'Hiding charts view' : 'Showing charts view');
+        break;
       case 'SHOW_HELP':
-        speak('You can say: Add money, Create goal, Check balance, Show rewards, or Open settings');
+        speak('You can say: Add money, Create goal, Check balance, Show rewards, Open settings, or Show charts');
         break;
       default:
         speak(`Sorry, I didn't understand: ${transcript}`);
@@ -123,6 +138,14 @@ const Dashboard: React.FC = () => {
     const diffTime = endDate.getTime() - today.getTime();
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     return Math.max(0, diffDays);
+  };
+
+  const handleCreateGoal = (newGoal: SavingsGoal) => {
+    setGoals(prev => [...prev, newGoal]);
+    toast({
+      title: "Goal Created!",
+      description: `Your goal "${newGoal.name}" has been created successfully.`,
+    });
   };
 
   return (
@@ -171,80 +194,100 @@ const Dashboard: React.FC = () => {
         {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           {/* Total Savings */}
-          <Card className="savings-card">
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-muted-foreground">
-                    {t('dashboard.totalSavings')}
-                  </p>
-                  <p className="text-3xl font-bold text-primary">
-                    {formatCurrency(savingsData.totalSavings)}
-                  </p>
+          <HoverExplainer 
+            explanation="This shows your total savings amount across all goals and general savings"
+            value={formatCurrency(savingsData.totalSavings)}
+          >
+            <Card className="savings-card">
+              <CardContent className="p-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm font-medium text-muted-foreground">
+                      {t('dashboard.totalSavings')}
+                    </p>
+                    <p className="text-3xl font-bold text-primary">
+                      {formatCurrency(savingsData.totalSavings)}
+                    </p>
+                  </div>
+                  <div className="w-12 h-12 bg-gradient-primary rounded-full flex items-center justify-center">
+                    <Wallet className="h-6 w-6 text-primary-foreground" />
+                  </div>
                 </div>
-                <div className="w-12 h-12 bg-gradient-primary rounded-full flex items-center justify-center">
-                  <Wallet className="h-6 w-6 text-primary-foreground" />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
+          </HoverExplainer>
 
           {/* Weekly Growth */}
-          <Card className="savings-card">
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-muted-foreground">
-                    {t('dashboard.thisWeek')}
-                  </p>
-                  <p className="text-2xl font-bold text-success">
-                    +{savingsData.weeklyGrowth}%
-                  </p>
+          <HoverExplainer 
+            explanation="This shows your savings growth percentage for the current week"
+            value={`+${savingsData.weeklyGrowth}%`}
+          >
+            <Card className="savings-card">
+              <CardContent className="p-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm font-medium text-muted-foreground">
+                      {t('dashboard.thisWeek')}
+                    </p>
+                    <p className="text-2xl font-bold text-success">
+                      +{savingsData.weeklyGrowth}%
+                    </p>
+                  </div>
+                  <div className="w-12 h-12 bg-gradient-success rounded-full flex items-center justify-center">
+                    <TrendingUp className="h-6 w-6 text-success-foreground" />
+                  </div>
                 </div>
-                <div className="w-12 h-12 bg-gradient-success rounded-full flex items-center justify-center">
-                  <TrendingUp className="h-6 w-6 text-success-foreground" />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
+          </HoverExplainer>
 
           {/* Reward Points */}
-          <Card className="savings-card">
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-muted-foreground">
-                    {t('dashboard.rewardPoints')}
-                  </p>
-                  <p className="text-2xl font-bold text-secondary">
-                    {savingsData.rewardPoints.toLocaleString()}
-                  </p>
+          <HoverExplainer 
+            explanation="These are reward points you earned by consistent saving and achieving milestones"
+            value={`${savingsData.rewardPoints.toLocaleString()} points`}
+          >
+            <Card className="savings-card">
+              <CardContent className="p-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm font-medium text-muted-foreground">
+                      {t('dashboard.rewardPoints')}
+                    </p>
+                    <p className="text-2xl font-bold text-secondary">
+                      {savingsData.rewardPoints.toLocaleString()}
+                    </p>
+                  </div>
+                  <div className="w-12 h-12 bg-gradient-secondary rounded-full flex items-center justify-center">
+                    <Gift className="h-6 w-6 text-secondary-foreground" />
+                  </div>
                 </div>
-                <div className="w-12 h-12 bg-gradient-secondary rounded-full flex items-center justify-center">
-                  <Gift className="h-6 w-6 text-secondary-foreground" />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
+          </HoverExplainer>
 
           {/* Saving Streak */}
-          <Card className="savings-card">
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-muted-foreground">
-                    {t('dashboard.savingStreak')}
-                  </p>
-                  <p className="text-2xl font-bold text-warning">
-                    {savingsData.savingStreak} days
-                  </p>
+          <HoverExplainer 
+            explanation="This shows how many consecutive days you have been saving money"
+            value={`${savingsData.savingStreak} days streak`}
+          >
+            <Card className="savings-card">
+              <CardContent className="p-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm font-medium text-muted-foreground">
+                      {t('dashboard.savingStreak')}
+                    </p>
+                    <p className="text-2xl font-bold text-warning">
+                      {savingsData.savingStreak} days
+                    </p>
+                  </div>
+                  <div className="w-12 h-12 bg-warning rounded-full flex items-center justify-center">
+                    <Star className="h-6 w-6 text-warning-foreground" />
+                  </div>
                 </div>
-                <div className="w-12 h-12 bg-warning rounded-full flex items-center justify-center">
-                  <Star className="h-6 w-6 text-warning-foreground" />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
+          </HoverExplainer>
         </div>
 
         {/* Quick Actions */}
@@ -256,38 +299,85 @@ const Dashboard: React.FC = () => {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <Button 
-                onClick={() => navigate('/payment')}
-                className="btn-primary h-auto py-4 flex-col space-y-2"
-                aria-label={t('dashboard.addMoney')}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <HoverExplainer 
+                explanation="Click here to add money to your savings account. You can use UPI, bank transfer, or card payment"
               >
-                <Plus className="h-6 w-6" />
-                <span>{t('dashboard.addMoney')}</span>
-              </Button>
+                <Button 
+                  onClick={() => navigate('/payment')}
+                  className="btn-primary h-auto py-4 flex-col space-y-2"
+                  aria-label={t('dashboard.addMoney')}
+                >
+                  <Plus className="h-6 w-6" />
+                  <span>{t('dashboard.addMoney')}</span>
+                </Button>
+              </HoverExplainer>
               
-              <Button 
-                onClick={() => speak('Goal creation feature coming soon!')}
-                variant="outline"
-                className="h-auto py-4 flex-col space-y-2 hover:bg-accent"
-                aria-label={t('dashboard.setGoal')}
+              <HoverExplainer 
+                explanation="Click here to create a new savings goal. Set your target amount, deadline, and category"
               >
-                <Target className="h-6 w-6" />
-                <span>{t('dashboard.setGoal')}</span>
-              </Button>
+                <Button 
+                  onClick={() => setIsGoalModalOpen(true)}
+                  variant="outline"
+                  className="h-auto py-4 flex-col space-y-2 hover:bg-accent"
+                  aria-label={t('dashboard.setGoal')}
+                >
+                  <Target className="h-6 w-6" />
+                  <span>{t('dashboard.setGoal')}</span>
+                </Button>
+              </HoverExplainer>
               
-              <Button 
-                onClick={() => speak(`You have ${savingsData.rewardPoints} reward points!`)}
-                variant="outline"
-                className="h-auto py-4 flex-col space-y-2 hover:bg-accent"
-                aria-label={t('dashboard.viewRewards')}
+              <HoverExplainer 
+                explanation="Click here to view your reward points and available rewards"
+                value={`${savingsData.rewardPoints} points available`}
               >
-                <Gift className="h-6 w-6" />
-                <span>{t('dashboard.viewRewards')}</span>
-              </Button>
+                <Button 
+                  onClick={() => speak(`You have ${savingsData.rewardPoints} reward points!`)}
+                  variant="outline"
+                  className="h-auto py-4 flex-col space-y-2 hover:bg-accent"
+                  aria-label={t('dashboard.viewRewards')}
+                >
+                  <Gift className="h-6 w-6" />
+                  <span>{t('dashboard.viewRewards')}</span>
+                </Button>
+              </HoverExplainer>
+
+              <HoverExplainer 
+                explanation="Click here to toggle between data view and graphical charts view of your savings"
+              >
+                <Button 
+                  onClick={() => setShowCharts(!showCharts)}
+                  variant="outline"
+                  className="h-auto py-4 flex-col space-y-2 hover:bg-accent"
+                  aria-label="Toggle charts view"
+                >
+                  {showCharts ? <BarChart3 className="h-6 w-6" /> : <PieChart className="h-6 w-6" />}
+                  <span>{showCharts ? 'Hide Charts' : 'Show Charts'}</span>
+                </Button>
+              </HoverExplainer>
             </div>
           </CardContent>
         </Card>
+
+        {/* Charts Section */}
+        {showCharts && (
+          <div className="mb-8">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <BarChart3 className="h-5 w-5" />
+                  Savings Analytics
+                </CardTitle>
+                <CardDescription>
+                  Visual representation of your savings data and goals
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <DashboardCharts savingsData={savingsData} goals={goals} />
+              </CardContent>
+            </Card>
+          </div>
+        )}
 
         {/* Active Goals */}
         <Card>
@@ -304,36 +394,49 @@ const Dashboard: React.FC = () => {
                 const daysLeft = getDaysLeft(goal.deadline);
                 
                 return (
-                  <div key={goal.id} className="goal-card">
-                    <div className="flex items-center justify-between mb-4">
-                      <div>
-                        <h3 className="font-semibold text-lg">{goal.name}</h3>
-                        <p className="text-sm text-muted-foreground">
-                          {formatCurrency(goal.current)} of {formatCurrency(goal.target)}
-                        </p>
+                  <HoverExplainer 
+                    key={goal.id}
+                    explanation={`This is your ${goal.name} goal. You have saved ${formatCurrency(goal.current)} out of ${formatCurrency(goal.target)}`}
+                    value={`${progress.toFixed(1)}% complete, ${daysLeft} days remaining`}
+                  >
+                    <div className="goal-card">
+                      <div className="flex items-center justify-between mb-4">
+                        <div>
+                          <h3 className="font-semibold text-lg">{goal.name}</h3>
+                          <p className="text-sm text-muted-foreground">
+                            {formatCurrency(goal.current)} of {formatCurrency(goal.target)}
+                          </p>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <Badge variant="secondary" className="flex items-center space-x-1">
+                            <Calendar className="h-3 w-3" />
+                            <span>{daysLeft} {t('goals.daysLeft')}</span>
+                          </Badge>
+                        </div>
                       </div>
-                      <div className="flex items-center space-x-2">
-                        <Badge variant="secondary" className="flex items-center space-x-1">
-                          <Calendar className="h-3 w-3" />
-                          <span>{daysLeft} {t('goals.daysLeft')}</span>
-                        </Badge>
+                      
+                      <div className="space-y-2">
+                        <div className="flex justify-between text-sm">
+                          <span>{t('goals.progress')}</span>
+                          <span>{progress.toFixed(1)}%</span>
+                        </div>
+                        <Progress value={progress} className="h-2" />
                       </div>
                     </div>
-                    
-                    <div className="space-y-2">
-                      <div className="flex justify-between text-sm">
-                        <span>{t('goals.progress')}</span>
-                        <span>{progress.toFixed(1)}%</span>
-                      </div>
-                      <Progress value={progress} className="h-2" />
-                    </div>
-                  </div>
+                  </HoverExplainer>
                 );
               })}
             </div>
           </CardContent>
         </Card>
       </main>
+
+      {/* Goal Creation Modal */}
+      <GoalModal 
+        isOpen={isGoalModalOpen}
+        onClose={() => setIsGoalModalOpen(false)}
+        onCreateGoal={handleCreateGoal}
+      />
 
       {/* Voice Button */}
       <VoiceButton 

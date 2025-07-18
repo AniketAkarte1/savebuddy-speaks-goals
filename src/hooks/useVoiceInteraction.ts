@@ -37,6 +37,7 @@ export const useVoiceInteraction = () => {
       { pattern: /show rewards|my rewards|points/i, action: 'SHOW_REWARDS', description: 'Show reward points' },
       { pattern: /open settings|settings|preferences/i, action: 'OPEN_SETTINGS', description: 'Open settings' },
       { pattern: /dashboard|home|main/i, action: 'GO_DASHBOARD', description: 'Go to dashboard' },
+      { pattern: /show charts|charts|analytics|graphs/i, action: 'SHOW_CHARTS', description: 'Show/hide charts' },
       { pattern: /help|commands|what can I say/i, action: 'SHOW_HELP', description: 'Show voice commands' },
       { pattern: /logout|sign out|exit/i, action: 'LOGOUT', description: 'Sign out' },
     ],
@@ -47,6 +48,7 @@ export const useVoiceInteraction = () => {
       { pattern: /mostrar recompensas|mis recompensas|puntos/i, action: 'SHOW_REWARDS', description: 'Mostrar puntos de recompensa' },
       { pattern: /abrir configuración|configuración|preferencias/i, action: 'OPEN_SETTINGS', description: 'Abrir configuración' },
       { pattern: /panel|inicio|principal/i, action: 'GO_DASHBOARD', description: 'Ir al panel' },
+      { pattern: /mostrar gráficos|gráficos|analíticas|estadísticas/i, action: 'SHOW_CHARTS', description: 'Mostrar/ocultar gráficos' },
       { pattern: /ayuda|comandos|qué puedo decir/i, action: 'SHOW_HELP', description: 'Mostrar comandos de voz' },
     ],
     de: [
@@ -56,6 +58,7 @@ export const useVoiceInteraction = () => {
       { pattern: /belohnungen zeigen|meine belohnungen|punkte/i, action: 'SHOW_REWARDS', description: 'Belohnungspunkte zeigen' },
       { pattern: /einstellungen öffnen|einstellungen|präferenzen/i, action: 'OPEN_SETTINGS', description: 'Einstellungen öffnen' },
       { pattern: /dashboard|startseite|haupt/i, action: 'GO_DASHBOARD', description: 'Zum Dashboard gehen' },
+      { pattern: /diagramme zeigen|diagramme|analytics|statistiken/i, action: 'SHOW_CHARTS', description: 'Diagramme anzeigen/verbergen' },
       { pattern: /hilfe|befehle|was kann ich sagen/i, action: 'SHOW_HELP', description: 'Sprachbefehle zeigen' },
     ],
     mr: [
@@ -65,6 +68,7 @@ export const useVoiceInteraction = () => {
       { pattern: /बक्षिसे दाखवा|माझी बक्षिसे|गुण/i, action: 'SHOW_REWARDS', description: 'बक्षीस गुण दाखवा' },
       { pattern: /सेटिंग्ज उघडा|सेटिंग्ज|प्राधान्ये/i, action: 'OPEN_SETTINGS', description: 'सेटिंग्ज उघडा' },
       { pattern: /डॅशबोर्ड|मुख्यपृष्ठ|मुख्य/i, action: 'GO_DASHBOARD', description: 'डॅशबोर्डवर जा' },
+      { pattern: /चार्ट दाखवा|चार्ट|आकडेवारी|ग्राफ/i, action: 'SHOW_CHARTS', description: 'चार्ट दाखवा/लपवा' },
       { pattern: /मदत|आदेश|मी काय बोलू शकतो/i, action: 'SHOW_HELP', description: 'आवाज आदेश दाखवा' },
     ],
     hi: [
@@ -74,6 +78,7 @@ export const useVoiceInteraction = () => {
       { pattern: /रिवार्ड दिखाएं|मेरे रिवार्ड|पॉइंट्स/i, action: 'SHOW_REWARDS', description: 'रिवार्ड पॉइंट्स दिखाएं' },
       { pattern: /सेटिंग्स खोलें|सेटिंग्स|प्राथमिकताएं/i, action: 'OPEN_SETTINGS', description: 'सेटिंग्स खोलें' },
       { pattern: /डैशबोर्ड|होम|मुख्य/i, action: 'GO_DASHBOARD', description: 'डैशबोर्ड पर जाएं' },
+      { pattern: /चार्ट दिखाएं|चार्ट|आंकड़े|ग्राफ/i, action: 'SHOW_CHARTS', description: 'चार्ट दिखाएं/छुपाएं' },
       { pattern: /मदद|कमांड्स|मैं क्या कह सकता हूं/i, action: 'SHOW_HELP', description: 'वॉयस कमांड्स दिखाएं' },
     ]
   };
