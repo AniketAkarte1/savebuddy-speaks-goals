@@ -92,37 +92,39 @@ const Dashboard: React.FC = () => {
     switch (command) {
       case 'ADD_MONEY':
         navigate('/payment');
+        speak(t('audio.navigatingToPayment'));
         break;
       case 'CREATE_GOAL':
         setIsGoalModalOpen(true);
-        speak('Opening goal creation form');
+        speak(t('audio.openingGoalForm'));
         break;
       case 'CHECK_BALANCE':
-        speak(`Your total savings is ₹${savingsData.totalSavings.toLocaleString()}`);
+        speak(t('audio.currentBalance', { amount: savingsData.totalSavings.toLocaleString() }));
         break;
       case 'SHOW_REWARDS':
-        speak(`You have ${savingsData.rewardPoints} reward points!`);
+        speak(t('audio.rewardPoints', { points: savingsData.rewardPoints }));
         break;
       case 'OPEN_SETTINGS':
         navigate('/settings');
+        speak(t('audio.navigatingToSettings'));
         break;
       case 'LOGOUT':
         handleLogout();
         break;
       case 'SHOW_CHARTS':
         setShowCharts(!showCharts);
-        speak(showCharts ? 'Hiding charts view' : 'Showing charts view');
+        speak(showCharts ? t('audio.hidingCharts') : t('audio.showingCharts'));
         break;
       case 'SHOW_HELP':
-        speak('You can say: Add money, Create goal, Check balance, Show rewards, Open settings, or Show charts');
+        speak(t('audio.helpCommands'));
         break;
       default:
-        speak(`Sorry, I didn't understand: ${transcript}`);
+        speak(t('audio.didNotUnderstand', { transcript }));
     }
   };
 
   const handleLogout = () => {
-    speak('Signing you out...');
+    speak(t('audio.signingOut'));
     setTimeout(() => {
       navigate('/');
     }, 1000);
@@ -332,7 +334,7 @@ const Dashboard: React.FC = () => {
                 value={`${savingsData.rewardPoints} points available`}
               >
                 <Button 
-                  onClick={() => speak(`You have ${savingsData.rewardPoints} reward points!`)}
+                  onClick={() => speak(t('audio.rewardPoints', { points: savingsData.rewardPoints }))}
                   variant="outline"
                   className="h-auto py-4 flex-col space-y-2 hover:bg-accent"
                   aria-label={t('dashboard.viewRewards')}

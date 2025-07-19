@@ -31,13 +31,13 @@ export const VoiceButton: React.FC<VoiceButtonProps> = ({
 
   // Handle voice command processing
   useEffect(() => {
-    if (voiceState.transcript && voiceState.isProcessing) {
+    if (voiceState.transcript && !voiceState.isListening && !voiceState.isProcessing) {
       const command = processCommand(voiceState.transcript);
       if (command && onCommand) {
         onCommand(command, voiceState.transcript);
       }
     }
-  }, [voiceState.transcript, voiceState.isProcessing, processCommand, onCommand]);
+  }, [voiceState.transcript, voiceState.isListening, voiceState.isProcessing, processCommand, onCommand]);
 
   // Auto-speak guide text when component mounts
   useEffect(() => {

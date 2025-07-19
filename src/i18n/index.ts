@@ -94,6 +94,16 @@ const resources = {
       'audio.goalGuide': 'This is the goals section where you can create and manage your savings goals.',
       'audio.paymentGuide': 'This is the payment section where you can add money to your savings.',
       'audio.settingsGuide': 'This is the settings section where you can manage your preferences and voice commands.',
+      'audio.navigatingToPayment': 'Opening payment screen where you can add money.',
+      'audio.openingGoalForm': 'Opening goal creation form.',
+      'audio.currentBalance': 'Your total savings is ₹{{amount}}.',
+      'audio.rewardPoints': 'You have {{points}} reward points!',
+      'audio.navigatingToSettings': 'Opening settings screen.',
+      'audio.signingOut': 'Signing you out...',
+      'audio.showingCharts': 'Showing charts view.',
+      'audio.hidingCharts': 'Hiding charts view.',
+      'audio.helpCommands': 'You can say: Add money, Create goal, Check balance, Show rewards, Open settings, or Show charts.',
+      'audio.didNotUnderstand': 'Sorry, I did not understand: {{transcript}}.',
     }
   },
   es: {
@@ -148,6 +158,16 @@ const resources = {
       'audio.welcomeMessage': 'Bienvenido a Gullak, tu compañero de ahorros habilitado por voz. Puedes navegar usando comandos de voz o toque. Di "ayuda" para aprender comandos de voz.',
       'audio.loginGuide': 'Esta es la pantalla de inicio de sesión. Puedes iniciar sesión con Google o crear una nueva cuenta.',
       'audio.dashboardGuide': 'Este es tu panel de ahorros. Aquí puedes ver tus ahorros totales, objetivos activos y puntos de recompensa.',
+      'audio.navigatingToPayment': 'Abriendo pantalla de pago donde puedes agregar dinero.',
+      'audio.openingGoalForm': 'Abriendo formulario de creación de objetivos.',
+      'audio.currentBalance': 'Tus ahorros totales son ₹{{amount}}.',
+      'audio.rewardPoints': '¡Tienes {{points}} puntos de recompensa!',
+      'audio.navigatingToSettings': 'Abriendo pantalla de configuración.',
+      'audio.signingOut': 'Cerrando sesión...',
+      'audio.showingCharts': 'Mostrando vista de gráficos.',
+      'audio.hidingCharts': 'Ocultando vista de gráficos.',
+      'audio.helpCommands': 'Puedes decir: Agregar dinero, Crear objetivo, Verificar saldo, Mostrar recompensas, Abrir configuración, o Mostrar gráficos.',
+      'audio.didNotUnderstand': 'Lo siento, no entendí: {{transcript}}.',
     }
   },
   de: {
@@ -178,6 +198,18 @@ const resources = {
       'voice.tapToSpeak': 'Zum Sprechen tippen',
       
       'audio.welcomeMessage': 'Willkommen bei Gullak, Ihrem sprachgesteuerten Spar-Begleiter. Sie können mit Sprachbefehlen oder Berührung navigieren. Sagen Sie "Hilfe" für Sprachbefehle.',
+      'audio.loginGuide': 'Dies ist der Anmeldebildschirm. Sie können sich mit Google anmelden oder ein neues Konto erstellen.',
+      'audio.dashboardGuide': 'Dies ist Ihr Spar-Dashboard. Hier können Sie Ihre Gesamtersparnisse, aktiven Ziele und Belohnungspunkte sehen.',
+      'audio.navigatingToPayment': 'Öffne Zahlungsbildschirm, wo Sie Geld hinzufügen können.',
+      'audio.openingGoalForm': 'Öffne Zielerstellungsformular.',
+      'audio.currentBalance': 'Ihre Gesamtersparnisse betragen ₹{{amount}}.',
+      'audio.rewardPoints': 'Sie haben {{points}} Belohnungspunkte!',
+      'audio.navigatingToSettings': 'Öffne Einstellungsbildschirm.',
+      'audio.signingOut': 'Melde Sie ab...',
+      'audio.showingCharts': 'Zeige Diagrammansicht.',
+      'audio.hidingCharts': 'Verstecke Diagrammansicht.',
+      'audio.helpCommands': 'Sie können sagen: Geld hinzufügen, Ziel erstellen, Guthaben prüfen, Belohnungen zeigen, Einstellungen öffnen, oder Diagramme zeigen.',
+      'audio.didNotUnderstand': 'Entschuldigung, ich habe nicht verstanden: {{transcript}}.',
     }
   },
   mr: {
@@ -208,6 +240,18 @@ const resources = {
       'voice.tapToSpeak': 'बोलण्यासाठी टॅप करा',
       
       'audio.welcomeMessage': 'गुल्लकमध्ये आपले स्वागत, आपला आवाज-सक्षम बचत साथीदार. आपण आवाज आदेश किंवा स्पर्शाचा वापर करून नेव्हिगेट करू शकता.',
+      'audio.loginGuide': 'ही लॉगिन स्क्रीन आहे. आपण Google सह साइन इन करू शकता किंवा नवीन खाते तयार करू शकता.',
+      'audio.dashboardGuide': 'हे आपले बचत डॅशबोर्ड आहे. येथे आपण आपली एकूण बचत, सक्रिय लक्ष्ये आणि बक्षीस गुण पाहू शकता.',
+      'audio.navigatingToPayment': 'पेमेंट स्क्रीन उघडत आहे जिथे आपण पैसे जोडू शकता.',
+      'audio.openingGoalForm': 'लक्ष्य तयार करण्याचा फॉर्म उघडत आहे.',
+      'audio.currentBalance': 'आपली एकूण बचत ₹{{amount}} आहे.',
+      'audio.rewardPoints': 'आपल्याकडे {{points}} बक्षीस गुण आहेत!',
+      'audio.navigatingToSettings': 'सेटिंग्ज स्क्रीन उघडत आहे.',
+      'audio.signingOut': 'साइन आउट करत आहे...',
+      'audio.showingCharts': 'चार्ट व्यू दाखवत आहे.',
+      'audio.hidingCharts': 'चार्ट व्यू लपवत आहे.',
+      'audio.helpCommands': 'आपण म्हणू शकता: पैसे जोडा, लक्ष्य तयार करा, शिल्लक तपासा, बक्षिसे दाखवा, सेटिंग्ज उघडा, किंवा चार्ट दाखवा.',
+      'audio.didNotUnderstand': 'माफ करा, मला समजले नाही: {{transcript}}.',
     }
   },
   hi: {
@@ -238,6 +282,18 @@ const resources = {
       'voice.tapToSpeak': 'बोलने के लिए टैप करें',
       
       'audio.welcomeMessage': 'गुल्लक में आपका स्वागत है, आपका आवाज-सक्षम बचत साथी। आप आवाज कमांड या स्पर्श का उपयोग करके नेविगेट कर सकते हैं।',
+      'audio.loginGuide': 'यह लॉगिन स्क्रीन है। आप Google से साइन इन कर सकते हैं या नया खाता बना सकते हैं।',
+      'audio.dashboardGuide': 'यह आपका बचत डैशबोर्ड है। यहाँ आप अपनी कुल बचत, सक्रिय लक्ष्य और रिवार्ड पॉइंट्स देख सकते हैं।',
+      'audio.navigatingToPayment': 'पेमेंट स्क्रीन खोल रहे हैं जहाँ आप पैसे जोड़ सकते हैं।',
+      'audio.openingGoalForm': 'लक्ष्य बनाने का फॉर्म खोल रहे हैं।',
+      'audio.currentBalance': 'आपकी कुल बचत ₹{{amount}} है।',
+      'audio.rewardPoints': 'आपके पास {{points}} रिवार्ड पॉइंट्स हैं!',
+      'audio.navigatingToSettings': 'सेटिंग्स स्क्रीन खोल रहे हैं।',
+      'audio.signingOut': 'साइन आउट कर रहे हैं...',
+      'audio.showingCharts': 'चार्ट व्यू दिखा रहे हैं।',
+      'audio.hidingCharts': 'चार्ट व्यू छुपा रहे हैं।',
+      'audio.helpCommands': 'आप कह सकते हैं: पैसे जोड़ें, लक्ष्य बनाएं, बैलेंस चेक करें, रिवार्ड दिखाएं, सेटिंग्स खोलें, या चार्ट दिखाएं।',
+      'audio.didNotUnderstand': 'माफ करें, मैं समझ नहीं पाया: {{transcript}}।',
     }
   }
 };

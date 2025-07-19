@@ -116,7 +116,7 @@ export const useVoiceInteraction = () => {
         setVoiceState(prev => ({ 
           ...prev, 
           isListening: false, 
-          isProcessing: prev.transcript ? true : false 
+          isProcessing: false 
         }));
       };
 
@@ -197,14 +197,14 @@ export const useVoiceInteraction = () => {
 
   // Effect to process completed transcripts
   useEffect(() => {
-    if (voiceState.transcript && voiceState.isProcessing) {
+    if (voiceState.transcript && !voiceState.isListening && !voiceState.isProcessing) {
       const command = processCommand(voiceState.transcript);
       if (command) {
         // Command will be handled by the consuming component
         console.log('Voice command detected:', command, voiceState.transcript);
       }
     }
-  }, [voiceState.transcript, voiceState.isProcessing, processCommand]);
+  }, [voiceState.transcript, voiceState.isListening, voiceState.isProcessing, processCommand]);
 
   return {
     voiceState,
