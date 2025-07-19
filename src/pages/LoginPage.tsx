@@ -76,7 +76,7 @@ const LoginPage: React.FC = () => {
         <CardHeader className="text-center space-y-4">
           <div className="flex justify-center">
             <div className="w-16 h-16 bg-gradient-primary rounded-full flex items-center justify-center shadow-soft">
-              <img src="/src/assets/gullak_logo.png" alt="Gullak" className="h-10 w-10 object-contain" />
+              <img src="/src/assets/gullak_logo.png" alt="Gullak" className="h-14 w-14 object-contain" />
             </div>
           </div>
           <div>

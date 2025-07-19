@@ -18,7 +18,8 @@ import {
   Wallet,
   BarChart3,
   PieChart,
-  ShoppingCart
+  ShoppingCart,
+  Receipt
 } from 'lucide-react';
 import VoiceButton from '@/components/VoiceButton';
 import LanguageSelector from '@/components/LanguageSelector';
@@ -120,6 +121,14 @@ const Dashboard: React.FC = () => {
         navigate('/savings-shopping');
         speak('Opening savings via shopping screen');
         break;
+      case 'MY_TRANSACTIONS':
+        navigate('/transactions');
+        speak('Opening transaction history');
+        break;
+      case 'VIEW_REWARDS':
+        navigate('/rewards');
+        speak('Opening rewards screen');
+        break;
       case 'SHOW_HELP':
         speak(t('audio.helpCommands'));
         break;
@@ -163,7 +172,7 @@ const Dashboard: React.FC = () => {
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
               <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
-                <img src="/src/assets/gullak_logo.png" alt="Gullak" className="h-8 w-8 object-contain" />
+                <img src="/src/assets/gullak_logo.png" alt="Gullak" className="h-12 w-12 object-contain" />
               </div>
               <div>
                 <h1 className="text-2xl font-bold text-white">Gullak</h1>
@@ -306,7 +315,7 @@ const Dashboard: React.FC = () => {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
               <HoverExplainer 
                 explanation="Click here to add money to your savings account. You can use UPI, bank transfer, or card payment"
               >
@@ -339,7 +348,7 @@ const Dashboard: React.FC = () => {
                 value={`${savingsData.rewardPoints} points available`}
               >
                 <Button 
-                  onClick={() => speak(t('audio.rewardPoints', { points: savingsData.rewardPoints }))}
+                  onClick={() => navigate('/rewards')}
                   variant="outline"
                   className="h-auto py-4 flex-col space-y-2 hover:bg-accent"
                   aria-label={t('dashboard.viewRewards')}
@@ -374,6 +383,20 @@ const Dashboard: React.FC = () => {
                 >
                   <ShoppingCart className="h-6 w-6" />
                   <span>Savings via Shopping</span>
+                </Button>
+              </HoverExplainer>
+
+              <HoverExplainer 
+                explanation="Click here to view all your transaction history including deposits, savings, and goal contributions"
+              >
+                <Button 
+                  onClick={() => navigate('/transactions')}
+                  variant="outline"
+                  className="h-auto py-4 flex-col space-y-2 hover:bg-accent"
+                  aria-label="My Transactions"
+                >
+                  <Receipt className="h-6 w-6" />
+                  <span>My Transactions</span>
                 </Button>
               </HoverExplainer>
             </div>

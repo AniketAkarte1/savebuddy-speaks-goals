@@ -41,6 +41,8 @@ export const useVoiceInteraction = () => {
       { pattern: /help|commands|what can I say/i, action: 'SHOW_HELP', description: 'Show voice commands' },
       { pattern: /logout|sign out|exit/i, action: 'LOGOUT', description: 'Sign out' },
       { pattern: /savings shopping|shopping savings|round up/i, action: 'SAVINGS_SHOPPING', description: 'Open savings via shopping' },
+      { pattern: /my transactions|transactions|transaction history/i, action: 'MY_TRANSACTIONS', description: 'View transaction history' },
+      { pattern: /view rewards|my rewards|rewards/i, action: 'VIEW_REWARDS', description: 'View rewards and points' },
     ],
     es: [
       { pattern: /agregar dinero|depositar|ahorrar dinero/i, action: 'ADD_MONEY', description: 'Agregar dinero a ahorros' },
@@ -52,6 +54,8 @@ export const useVoiceInteraction = () => {
       { pattern: /mostrar gráficos|gráficos|analíticas|estadísticas/i, action: 'SHOW_CHARTS', description: 'Mostrar/ocultar gráficos' },
       { pattern: /ayuda|comandos|qué puedo decir/i, action: 'SHOW_HELP', description: 'Mostrar comandos de voz' },
       { pattern: /ahorros comprando|compras ahorros|redondear/i, action: 'SAVINGS_SHOPPING', description: 'Abrir ahorros vía compras' },
+      { pattern: /mis transacciones|transacciones|historial de transacciones/i, action: 'MY_TRANSACTIONS', description: 'Ver historial de transacciones' },
+      { pattern: /ver recompensas|mis recompensas|recompensas/i, action: 'VIEW_REWARDS', description: 'Ver recompensas y puntos' },
     ],
     de: [
       { pattern: /geld hinzufügen|einzahlen|geld sparen/i, action: 'ADD_MONEY', description: 'Geld zu Ersparnissen hinzufügen' },
@@ -63,6 +67,8 @@ export const useVoiceInteraction = () => {
       { pattern: /diagramme zeigen|diagramme|analytics|statistiken/i, action: 'SHOW_CHARTS', description: 'Diagramme anzeigen/verbergen' },
       { pattern: /hilfe|befehle|was kann ich sagen/i, action: 'SHOW_HELP', description: 'Sprachbefehle zeigen' },
       { pattern: /sparen beim einkaufen|einkaufs ersparnisse|aufrunden/i, action: 'SAVINGS_SHOPPING', description: 'Sparen beim Einkaufen öffnen' },
+      { pattern: /meine transaktionen|transaktionen|transaktionshistorie/i, action: 'MY_TRANSACTIONS', description: 'Transaktionshistorie anzeigen' },
+      { pattern: /belohnungen anzeigen|meine belohnungen|belohnungen/i, action: 'VIEW_REWARDS', description: 'Belohnungen und Punkte anzeigen' },
     ],
     mr: [
       { pattern: /पैसे जोडा|ठेव|पैसे वाचवा/i, action: 'ADD_MONEY', description: 'बचतीमध्ये पैसे जोडा' },
@@ -74,6 +80,8 @@ export const useVoiceInteraction = () => {
       { pattern: /चार्ट दाखवा|चार्ट|आकडेवारी|ग्राफ/i, action: 'SHOW_CHARTS', description: 'चार्ट दाखवा/लपवा' },
       { pattern: /मदत|आदेश|मी काय बोलू शकतो/i, action: 'SHOW_HELP', description: 'आवाज आदेश दाखवा' },
       { pattern: /खरेदीतून बचत|शॉपिंग बचत|राउंड अप/i, action: 'SAVINGS_SHOPPING', description: 'खरेदीतून बचत उघडा' },
+      { pattern: /माझे व्यवहार|व्यवहार|व्यवहार इतिहास/i, action: 'MY_TRANSACTIONS', description: 'व्यवहार इतिहास पहा' },
+      { pattern: /बक्षिसे पहा|माझी बक्षिसे|बक्षिसे/i, action: 'VIEW_REWARDS', description: 'बक्षिसे आणि गुण पहा' },
     ],
     hi: [
       { pattern: /पैसे जोड़ें|जमा करें|पैसे बचाएं/i, action: 'ADD_MONEY', description: 'बचत में पैसे जोड़ें' },
@@ -85,6 +93,8 @@ export const useVoiceInteraction = () => {
       { pattern: /चार्ट दिखाएं|चार्ट|आंकड़े|ग्राफ/i, action: 'SHOW_CHARTS', description: 'चार्ट दिखाएं/छुपाएं' },
       { pattern: /मदद|कमांड्स|मैं क्या कह सकता हूं/i, action: 'SHOW_HELP', description: 'वॉयस कमांड्स दिखाएं' },
       { pattern: /शॉपिंग से बचत|खरीदारी बचत|राउंड अप/i, action: 'SAVINGS_SHOPPING', description: 'शॉपिंग से बचत खोलें' },
+      { pattern: /मेरे लेनदेन|लेनदेन|लेनदेन इतिहास/i, action: 'MY_TRANSACTIONS', description: 'लेनदेन इतिहास देखें' },
+      { pattern: /रिवार्ड देखें|मेरे रिवार्ड|रिवार्ड/i, action: 'VIEW_REWARDS', description: 'रिवार्ड और पॉइंट्स देखें' },
     ]
   };
 
