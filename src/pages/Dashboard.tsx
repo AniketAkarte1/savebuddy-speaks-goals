@@ -17,7 +17,8 @@ import {
   Star,
   Wallet,
   BarChart3,
-  PieChart
+  PieChart,
+  ShoppingCart
 } from 'lucide-react';
 import VoiceButton from '@/components/VoiceButton';
 import LanguageSelector from '@/components/LanguageSelector';
@@ -115,6 +116,10 @@ const Dashboard: React.FC = () => {
         setShowCharts(!showCharts);
         speak(showCharts ? t('audio.hidingCharts') : t('audio.showingCharts'));
         break;
+      case 'SAVINGS_SHOPPING':
+        navigate('/savings-shopping');
+        speak('Opening savings via shopping screen');
+        break;
       case 'SHOW_HELP':
         speak(t('audio.helpCommands'));
         break;
@@ -158,7 +163,7 @@ const Dashboard: React.FC = () => {
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
               <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
-                <PiggyBank className="h-6 w-6 text-white" />
+                <img src="/src/assets/gullak_logo.png" alt="Gullak" className="h-8 w-8 object-contain" />
               </div>
               <div>
                 <h1 className="text-2xl font-bold text-white">Gullak</h1>
@@ -301,7 +306,7 @@ const Dashboard: React.FC = () => {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
               <HoverExplainer 
                 explanation="Click here to add money to your savings account. You can use UPI, bank transfer, or card payment"
               >
@@ -355,6 +360,20 @@ const Dashboard: React.FC = () => {
                 >
                   {showCharts ? <BarChart3 className="h-6 w-6" /> : <PieChart className="h-6 w-6" />}
                   <span>{showCharts ? 'Hide Charts' : 'Show Charts'}</span>
+                </Button>
+              </HoverExplainer>
+
+              <HoverExplainer 
+                explanation="Click here to save money by rounding up your shopping expenses to the nearest amount"
+              >
+                <Button 
+                  onClick={() => navigate('/savings-shopping')}
+                  variant="outline"
+                  className="h-auto py-4 flex-col space-y-2 hover:bg-accent"
+                  aria-label="Savings via Shopping"
+                >
+                  <ShoppingCart className="h-6 w-6" />
+                  <span>Savings via Shopping</span>
                 </Button>
               </HoverExplainer>
             </div>

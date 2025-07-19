@@ -51,6 +51,8 @@ const resources = {
       'dashboard.addMoney': 'Add Money',
       'dashboard.setGoal': 'Set Goal',
       'dashboard.viewRewards': 'View Rewards',
+      'dashboard.savingsViaShoppingTitle': 'Savings via Shopping',
+      'dashboard.savingsViaShoppingDesc': 'Round up purchases and save',
       
       // Goals
       'goals.createGoal': 'Create Savings Goal',
@@ -149,6 +151,8 @@ const resources = {
       'dashboard.addMoney': 'Agregar Dinero',
       'dashboard.setGoal': 'Establecer Objetivo',
       'dashboard.viewRewards': 'Ver Recompensas',
+      'dashboard.savingsViaShoppingTitle': 'Ahorros vía Compras',
+      'dashboard.savingsViaShoppingDesc': 'Redondea compras y ahorra',
       
       'voice.listening': 'Escuchando...',
       'voice.processing': 'Procesando...',
@@ -192,6 +196,8 @@ const resources = {
       'dashboard.thisWeek': 'Diese Woche',
       'dashboard.thisMonth': 'Diesen Monat',
       'dashboard.thisYear': 'Dieses Jahr',
+      'dashboard.savingsViaShoppingTitle': 'Sparen beim Einkaufen',
+      'dashboard.savingsViaShoppingDesc': 'Einkäufe aufrunden und sparen',
       
       'voice.listening': 'Höre zu...',
       'voice.processing': 'Verarbeitung...',
@@ -234,6 +240,8 @@ const resources = {
       'dashboard.thisWeek': 'या आठवड्यात',
       'dashboard.thisMonth': 'या महिन्यात',
       'dashboard.thisYear': 'या वर्षी',
+      'dashboard.savingsViaShoppingTitle': 'खरेदीतून बचत',
+      'dashboard.savingsViaShoppingDesc': 'खरेदी राउंड अप करा आणि बचत करा',
       
       'voice.listening': 'ऐकत आहे...',
       'voice.processing': 'प्रक्रिया करत आहे...',
@@ -276,6 +284,8 @@ const resources = {
       'dashboard.thisWeek': 'इस सप्ताह',
       'dashboard.thisMonth': 'इस महीने',
       'dashboard.thisYear': 'इस साल',
+      'dashboard.savingsViaShoppingTitle': 'शॉपिंग से बचत',
+      'dashboard.savingsViaShoppingDesc': 'खरीदारी राउंड अप करें और बचत करें',
       
       'voice.listening': 'सुन रहा है...',
       'voice.processing': 'प्रोसेसिंग...',

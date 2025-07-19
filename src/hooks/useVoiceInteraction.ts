@@ -40,6 +40,7 @@ export const useVoiceInteraction = () => {
       { pattern: /show charts|charts|analytics|graphs/i, action: 'SHOW_CHARTS', description: 'Show/hide charts' },
       { pattern: /help|commands|what can I say/i, action: 'SHOW_HELP', description: 'Show voice commands' },
       { pattern: /logout|sign out|exit/i, action: 'LOGOUT', description: 'Sign out' },
+      { pattern: /savings shopping|shopping savings|round up/i, action: 'SAVINGS_SHOPPING', description: 'Open savings via shopping' },
     ],
     es: [
       { pattern: /agregar dinero|depositar|ahorrar dinero/i, action: 'ADD_MONEY', description: 'Agregar dinero a ahorros' },
@@ -50,6 +51,7 @@ export const useVoiceInteraction = () => {
       { pattern: /panel|inicio|principal/i, action: 'GO_DASHBOARD', description: 'Ir al panel' },
       { pattern: /mostrar gráficos|gráficos|analíticas|estadísticas/i, action: 'SHOW_CHARTS', description: 'Mostrar/ocultar gráficos' },
       { pattern: /ayuda|comandos|qué puedo decir/i, action: 'SHOW_HELP', description: 'Mostrar comandos de voz' },
+      { pattern: /ahorros comprando|compras ahorros|redondear/i, action: 'SAVINGS_SHOPPING', description: 'Abrir ahorros vía compras' },
     ],
     de: [
       { pattern: /geld hinzufügen|einzahlen|geld sparen/i, action: 'ADD_MONEY', description: 'Geld zu Ersparnissen hinzufügen' },
@@ -60,6 +62,7 @@ export const useVoiceInteraction = () => {
       { pattern: /dashboard|startseite|haupt/i, action: 'GO_DASHBOARD', description: 'Zum Dashboard gehen' },
       { pattern: /diagramme zeigen|diagramme|analytics|statistiken/i, action: 'SHOW_CHARTS', description: 'Diagramme anzeigen/verbergen' },
       { pattern: /hilfe|befehle|was kann ich sagen/i, action: 'SHOW_HELP', description: 'Sprachbefehle zeigen' },
+      { pattern: /sparen beim einkaufen|einkaufs ersparnisse|aufrunden/i, action: 'SAVINGS_SHOPPING', description: 'Sparen beim Einkaufen öffnen' },
     ],
     mr: [
       { pattern: /पैसे जोडा|ठेव|पैसे वाचवा/i, action: 'ADD_MONEY', description: 'बचतीमध्ये पैसे जोडा' },
@@ -70,6 +73,7 @@ export const useVoiceInteraction = () => {
       { pattern: /डॅशबोर्ड|मुख्यपृष्ठ|मुख्य/i, action: 'GO_DASHBOARD', description: 'डॅशबोर्डवर जा' },
       { pattern: /चार्ट दाखवा|चार्ट|आकडेवारी|ग्राफ/i, action: 'SHOW_CHARTS', description: 'चार्ट दाखवा/लपवा' },
       { pattern: /मदत|आदेश|मी काय बोलू शकतो/i, action: 'SHOW_HELP', description: 'आवाज आदेश दाखवा' },
+      { pattern: /खरेदीतून बचत|शॉपिंग बचत|राउंड अप/i, action: 'SAVINGS_SHOPPING', description: 'खरेदीतून बचत उघडा' },
     ],
     hi: [
       { pattern: /पैसे जोड़ें|जमा करें|पैसे बचाएं/i, action: 'ADD_MONEY', description: 'बचत में पैसे जोड़ें' },
@@ -80,6 +84,7 @@ export const useVoiceInteraction = () => {
       { pattern: /डैशबोर्ड|होम|मुख्य/i, action: 'GO_DASHBOARD', description: 'डैशबोर्ड पर जाएं' },
       { pattern: /चार्ट दिखाएं|चार्ट|आंकड़े|ग्राफ/i, action: 'SHOW_CHARTS', description: 'चार्ट दिखाएं/छुपाएं' },
       { pattern: /मदद|कमांड्स|मैं क्या कह सकता हूं/i, action: 'SHOW_HELP', description: 'वॉयस कमांड्स दिखाएं' },
+      { pattern: /शॉपिंग से बचत|खरीदारी बचत|राउंड अप/i, action: 'SAVINGS_SHOPPING', description: 'शॉपिंग से बचत खोलें' },
     ]
   };
 

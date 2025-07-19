@@ -87,7 +87,7 @@ const RegisterPage: React.FC = () => {
         <CardHeader className="text-center space-y-4">
           <div className="flex justify-center">
             <div className="w-16 h-16 bg-gradient-primary rounded-full flex items-center justify-center shadow-soft">
-              <PiggyBank className="h-8 w-8 text-primary-foreground" />
+              <img src="/src/assets/gullak_logo.png" alt="Gullak" className="h-10 w-10 object-contain" />
             </div>
           </div>
           <div>
