@@ -216,6 +216,11 @@ All colors MUST be HSL for accessibility and theming.
     animation: savings-grow 0.8s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
+  /* Chat animation */
+  .animate-scale-in {
+    animation: scale-in 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
   /* Button enhancements */
   .btn-primary {
     @apply text-primary-foreground shadow-soft hover:shadow-medium transition-all duration-300;
@@ -281,6 +286,17 @@ All colors MUST be HSL for accessibility and theming.
   }
   100% {
     transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes scale-in {
+  0% {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
     opacity: 1;
   }
 }

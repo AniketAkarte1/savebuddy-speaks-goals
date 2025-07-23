@@ -417,6 +417,16 @@ const TransactionsPage: React.FC = () => {
           </CardContent>
         </Card>
       </div>
+
+      {/* ChatBot */}
+      <ChatBot 
+        isLoggedIn={true} 
+        userAccountData={{
+          savings: totalSaved,
+          goals: [],
+          totalSaved: totalSaved
+        }}
+      />
     </div>
   );
 };

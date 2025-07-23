@@ -356,9 +356,9 @@ const SettingsPage: React.FC = () => {
       <ChatBot 
         isLoggedIn={true} 
         userAccountData={{
-          savings: 15000,
+          savings: 15750,
           goals: [],
-          totalSaved: 45000
+          totalSaved: 15750
         }}
       />
     </div>

@@ -474,6 +474,16 @@ const RewardsPage: React.FC = () => {
           </CardContent>
         </Card>
       </div>
+
+      {/* ChatBot */}
+      <ChatBot 
+        isLoggedIn={true} 
+        userAccountData={{
+          savings: savingsData.totalSavings,
+          goals: [],
+          totalSaved: totalEarned
+        }}
+      />
     </div>
   );
 };
