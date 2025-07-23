@@ -19,6 +19,7 @@ import {
 } from 'lucide-react';
 import VoiceButton from '@/components/VoiceButton';
 import LanguageSelector from '@/components/LanguageSelector';
+import ChatBot from '@/components/ChatBot';
 import { useVoiceInteraction } from '@/hooks/useVoiceInteraction';
 
 type PaymentMethod = 'upi' | 'bank' | 'card';
@@ -422,6 +423,16 @@ const PaymentPage: React.FC = () => {
           </CardContent>
         </Card>
       </div>
+
+      {/* ChatBot */}
+      <ChatBot 
+        isLoggedIn={true} 
+        userAccountData={{
+          savings: 15000,
+          goals: [],
+          totalSaved: 45000
+        }}
+      />
     </div>
   );
 };

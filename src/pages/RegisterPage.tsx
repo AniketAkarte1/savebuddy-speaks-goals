@@ -9,6 +9,7 @@ import { Separator } from '@/components/ui/separator';
 import { PiggyBank, Mail, Lock, User, CreditCard, ArrowLeft } from 'lucide-react';
 import VoiceButton from '@/components/VoiceButton';
 import LanguageSelector from '@/components/LanguageSelector';
+import ChatBot from '@/components/ChatBot';
 import { useVoiceInteraction } from '@/hooks/useVoiceInteraction';
 
 const RegisterPage: React.FC = () => {
@@ -241,6 +242,9 @@ const RegisterPage: React.FC = () => {
           </div>
         </CardContent>
       </Card>
+
+      {/* ChatBot */}
+      <ChatBot isLoggedIn={false} />
     </div>
   );
 };

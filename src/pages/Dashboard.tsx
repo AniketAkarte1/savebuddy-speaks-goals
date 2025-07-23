@@ -26,6 +26,7 @@ import LanguageSelector from '@/components/LanguageSelector';
 import HoverExplainer from '@/components/HoverExplainer';
 import GoalModal from '@/components/GoalModal';
 import DashboardCharts from '@/components/DashboardCharts';
+import ChatBot from '@/components/ChatBot';
 import { useVoiceInteraction } from '@/hooks/useVoiceInteraction';
 import { useToast } from '@/hooks/use-toast';
 
@@ -498,6 +499,16 @@ const Dashboard: React.FC = () => {
           </CardContent>
         </Card>
       </div>
+
+      {/* ChatBot */}
+      <ChatBot 
+        isLoggedIn={true} 
+        userAccountData={{
+          savings: savingsData.totalSavings,
+          goals: goals,
+          totalSaved: savingsData.totalSavings
+        }}
+      />
     </div>
   );
 };
