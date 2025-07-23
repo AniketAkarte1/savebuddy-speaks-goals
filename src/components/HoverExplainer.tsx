@@ -54,8 +54,6 @@ const HoverExplainer: React.FC<HoverExplainerProps> = ({
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onFocus={handleFocus}
-      tabIndex={0}
-      role="button"
       aria-label={explanation}
     >
       {children}

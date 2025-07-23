@@ -105,6 +105,8 @@ const Dashboard: React.FC = () => {
         speak(t('audio.currentBalance', { amount: savingsData.totalSavings.toLocaleString() }));
         break;
       case 'SHOW_REWARDS':
+      case 'VIEW_REWARDS':
+        navigate('/rewards');
         speak(t('audio.rewardPoints', { points: savingsData.rewardPoints }));
         break;
       case 'OPEN_SETTINGS':
@@ -125,10 +127,6 @@ const Dashboard: React.FC = () => {
       case 'MY_TRANSACTIONS':
         navigate('/transactions');
         speak('Opening transaction history');
-        break;
-      case 'VIEW_REWARDS':
-        navigate('/rewards');
-        speak('Opening rewards screen');
         break;
       case 'SHOW_HELP':
         speak(t('audio.helpCommands'));
@@ -163,6 +161,7 @@ const Dashboard: React.FC = () => {
       title: "Goal Created!",
       description: `Your goal "${newGoal.name}" has been created successfully.`,
     });
+    speak(`Goal "${newGoal.name}" has been created successfully!`);
   };
 
   return (

@@ -246,6 +246,23 @@ All colors MUST be HSL for accessibility and theming.
     @apply border border-border rounded-lg shadow-soft hover:shadow-medium transition-all duration-300 p-6;
     background: linear-gradient(to bottom right, hsl(var(--accent)), hsl(var(--accent) / 0.5));
   }
+
+  /* Ensure buttons are clickable */
+  .btn-primary, .btn-secondary, button {
+    @apply cursor-pointer;
+    pointer-events: auto !important;
+  }
+
+  /* Fix any overlay issues */
+  .hover-explainer {
+    position: relative;
+    z-index: 1;
+  }
+
+  .hover-explainer button {
+    position: relative;
+    z-index: 2;
+  }
 }
 
 @keyframes voice-pulse {
