@@ -7,11 +7,12 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { MessageCircle, Send, X, Bot, Mic, MicOff, Volume2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useVoiceInteraction } from '@/hooks/useVoiceInteraction';
+import { useEnhancedChatbot } from '@/hooks/useEnhancedChatbot';
 
 interface Message {
   id: string;
   text: string;
-  isBot: boolean;
+  isUser: boolean;
   timestamp: Date;
 }
 
@@ -28,11 +29,12 @@ const ChatBot: React.FC<ChatBotProps> = ({ isLoggedIn = false, userAccountData }
   const { t, i18n } = useTranslation();
   const { speak, voiceState, startListening, stopListening } = useVoiceInteraction();
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<Message[]>([]);
   const [inputMessage, setInputMessage] = useState('');
   const [isAnimating, setIsAnimating] = useState(false);
   const [isListening, setIsListening] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  
+  const { messages, sendMessage, isLoading } = useEnhancedChatbot(isLoggedIn, userAccountData);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -41,18 +43,6 @@ const ChatBot: React.FC<ChatBotProps> = ({ isLoggedIn = false, userAccountData }
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
-
-  useEffect(() => {
-    // Initial greeting message when chat opens
-    if (isOpen && messages.length === 0) {
-      const greeting = isLoggedIn 
-        ? t('chatbot.loggedInGreeting')
-        : t('chatbot.welcomeGreeting');
-      
-      addBotMessage(greeting);
-      speak(greeting);
-    }
-  }, [isOpen, isLoggedIn, messages.length, t, speak]);
 
   // Handle voice recognition results
   useEffect(() => {
@@ -66,132 +56,24 @@ const ChatBot: React.FC<ChatBotProps> = ({ isLoggedIn = false, userAccountData }
     }
   }, [voiceState.transcript, voiceState.isListening, isListening]);
 
-  const addBotMessage = (text: string) => {
-    const newMessage: Message = {
-      id: Date.now().toString(),
-      text,
-      isBot: true,
-      timestamp: new Date()
-    };
-    setMessages(prev => [...prev, newMessage]);
-  };
 
-  const addUserMessage = (text: string) => {
-    const newMessage: Message = {
-      id: Date.now().toString(),
-      text,
-      isBot: false,
-      timestamp: new Date()
-    };
-    setMessages(prev => [...prev, newMessage]);
-  };
-
-  const getBotResponse = (userMessage: string): string => {
-    const message = userMessage.toLowerCase();
-    
-    if (isLoggedIn) {
-      // Personalized banking and investment guidance
-      if (message.includes('investment') || message.includes('invest') || 
-          message.includes('निवेश') || message.includes('गुंतवणूक') ||
-          message.includes('inversión') || message.includes('investition')) {
-        return t('chatbot.investmentAdvice', { 
-          savings: userAccountData?.savings || 0 
-        });
-      }
-      
-      if (message.includes('goal') || message.includes('target') ||
-          message.includes('लक्ष्य') || message.includes('ध्येय') ||
-          message.includes('objetivo') || message.includes('ziel')) {
-        const goalsCount = userAccountData?.goals?.length || 0;
-        return t('chatbot.goalAdvice', { count: goalsCount });
-      }
-      
-      if (message.includes('savings') || message.includes('save') ||
-          message.includes('बचत') || message.includes('बचत') ||
-          message.includes('ahorros') || message.includes('sparen')) {
-        return t('chatbot.savingsAdvice', { 
-          total: userAccountData?.totalSaved || 0 
-        });
-      }
-      
-      if (message.includes('budget') || message.includes('expense') ||
-          message.includes('बजट') || message.includes('खर्च') ||
-          message.includes('presupuesto') || message.includes('ausgaben')) {
-        return t('chatbot.budgetAdvice');
-      }
-      
-      if (message.includes('emergency') || message.includes('fund') ||
-          message.includes('आपातकाल') || message.includes('आपत्कालीन') ||
-          message.includes('emergencia') || message.includes('notfall')) {
-        return t('chatbot.emergencyFundAdvice');
-      }
-      
-      if (message.includes('risk') || message.includes('portfolio') ||
-          message.includes('जोखीम') || message.includes('पोर्टफोलिओ') ||
-          message.includes('riesgo') || message.includes('risiko')) {
-        return t('chatbot.riskAdvice');
-      }
-      
-      return t('chatbot.personalizedResponse');
-    } else {
-      // General banking guidance for login/registration pages
-      if (message.includes('account') || message.includes('register') ||
-          message.includes('खाते') || message.includes('नोंदणी') ||
-          message.includes('cuenta') || message.includes('konto')) {
-        return t('chatbot.accountHelp');
-      }
-      
-      if (message.includes('login') || message.includes('sign in') ||
-          message.includes('लॉगिन') || message.includes('प्रवेश') ||
-          message.includes('iniciar') || message.includes('anmelden')) {
-        return t('chatbot.loginHelp');
-      }
-      
-      if (message.includes('savings') || message.includes('save') ||
-          message.includes('बचत') || message.includes('बचत') ||
-          message.includes('ahorros') || message.includes('sparen')) {
-        return t('chatbot.savingsInfo');
-      }
-      
-      if (message.includes('security') || message.includes('safe') ||
-          message.includes('सुरक्षा') || message.includes('सुरक्षित') ||
-          message.includes('seguridad') || message.includes('sicherheit')) {
-        return t('chatbot.securityInfo');
-      }
-      
-      if (message.includes('fee') || message.includes('charge') ||
-          message.includes('शुल्क') || message.includes('फी') ||
-          message.includes('tarifa') || message.includes('gebühr')) {
-        return t('chatbot.feeInfo');
-      }
-      
-      if (message.includes('help') || message.includes('support') ||
-          message.includes('मदत') || message.includes('सहायता') ||
-          message.includes('ayuda') || message.includes('hilfe')) {
-        return t('chatbot.helpInfo');
-      }
-      
-      return t('chatbot.generalResponse');
-    }
-  };
-
-  const handleSendMessage = (messageText?: string) => {
+  const handleSendMessage = async (messageText?: string) => {
     const textToSend = messageText || inputMessage;
-    if (!textToSend.trim()) return;
+    if (!textToSend.trim() || isLoading) return;
 
     setIsAnimating(true);
     setTimeout(() => setIsAnimating(false), 1000);
 
-    addUserMessage(textToSend);
-    
-    // Simulate bot thinking time
-    setTimeout(() => {
-      const response = getBotResponse(textToSend);
-      addBotMessage(response);
-      speak(response);
-    }, 1000);
-
     setInputMessage('');
+    await sendMessage(textToSend);
+    
+    // Speak the latest bot response
+    setTimeout(() => {
+      const lastBotMessage = messages.filter(m => !m.isUser).slice(-1)[0];
+      if (lastBotMessage) {
+        speak(lastBotMessage.text);
+      }
+    }, 500);
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -231,7 +113,7 @@ const ChatBot: React.FC<ChatBotProps> = ({ isLoggedIn = false, userAccountData }
               src="/src/assets/gullak_logo.png" 
               alt="Gullak Assistant" 
               className={cn(
-                "h-7 w-7 object-contain transition-transform duration-500",
+                "h-9 w-9 object-contain transition-transform duration-500",
                 "hover:rotate-12"
               )}
               style={{
@@ -259,14 +141,14 @@ const ChatBot: React.FC<ChatBotProps> = ({ isLoggedIn = false, userAccountData }
           <CardHeader className="pb-3 border-b border-border">
             <CardTitle className="text-lg flex items-center gap-2">
               <div className="relative">
-                <img 
-                  src="/src/assets/gullak_logo.png" 
-                  alt="Gullak" 
-                  className={cn(
-                    "h-8 w-8 object-contain transition-transform duration-1000",
-                    isAnimating ? "animate-spin" : "animate-pulse"
-                  )}
-                />
+                 <img 
+                   src="/src/assets/gullak_logo.png" 
+                   alt="Gullak" 
+                   className={cn(
+                     "h-10 w-10 object-contain transition-transform duration-1000",
+                     isAnimating ? "animate-spin" : "animate-pulse"
+                   )}
+                 />
               </div>
               <span className="bg-gradient-primary bg-clip-text text-transparent">
                 {t('chatbot.assistantName')}
@@ -281,27 +163,27 @@ const ChatBot: React.FC<ChatBotProps> = ({ isLoggedIn = false, userAccountData }
                 {messages.map((message) => (
                   <div
                     key={message.id}
-                    className={cn(
-                      "flex gap-2",
-                      message.isBot ? "justify-start" : "justify-end"
-                    )}
-                  >
-                    {message.isBot && (
+                     className={cn(
+                       "flex gap-2",
+                       !message.isUser ? "justify-start" : "justify-end"
+                     )}
+                   >
+                     {!message.isUser && (
                       <div className="w-8 h-8 rounded-full bg-gradient-primary flex items-center justify-center flex-shrink-0">
-                        <img 
-                          src="/src/assets/gullak_logo.png" 
-                          alt="Bot" 
-                          className="h-5 w-5 object-contain"
-                        />
+                         <img 
+                           src="/src/assets/gullak_logo.png" 
+                           alt="Bot" 
+                           className="h-6 w-6 object-contain"
+                         />
                       </div>
                     )}
                     <div
-                      className={cn(
-                        "max-w-[70%] p-3 rounded-lg text-sm",
-                        message.isBot
-                          ? "bg-muted text-muted-foreground"
-                          : "bg-primary text-primary-foreground"
-                      )}
+                       className={cn(
+                         "max-w-[70%] p-3 rounded-lg text-sm",
+                         !message.isUser
+                           ? "bg-muted text-muted-foreground"
+                           : "bg-primary text-primary-foreground"
+                       )}
                     >
                       {message.text}
                     </div>

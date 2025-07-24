@@ -22,15 +22,11 @@ import LanguageSelector from '@/components/LanguageSelector';
 import ChatBot from '@/components/ChatBot';
 import { useVoiceInteraction } from '@/hooks/useVoiceInteraction';
 
-type PaymentMethod = 'upi' | 'bank' | 'card';
+type PaymentMethod = 'upi' | 'razorpay';
 
 interface PaymentDetails {
   upiId?: string;
-  bankAccount?: string;
-  ifscCode?: string;
-  cardNumber?: string;
-  expiryDate?: string;
-  cvv?: string;
+  razorpayId?: string;
 }
 
 const PaymentPage: React.FC = () => {
@@ -42,6 +38,16 @@ const PaymentPage: React.FC = () => {
   const [amount, setAmount] = useState<string>('');
   const [paymentDetails, setPaymentDetails] = useState<PaymentDetails>({});
   const [isProcessing, setIsProcessing] = useState(false);
+  const [selectedGoal, setSelectedGoal] = useState<string>('');
+  const [showGoalSelection, setShowGoalSelection] = useState(false);
+
+  // Mock goals data - in real app this would come from props or context
+  const [goals] = useState([
+    { id: '1', name: 'Emergency Fund', current: 15750, target: 50000 },
+    { id: '2', name: 'Vacation to Goa', current: 8500, target: 25000 },
+    { id: '3', name: 'New Laptop', current: 22000, target: 75000 },
+    { id: 'general', name: 'General Savings', current: 0, target: 0 }
+  ]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -71,13 +77,9 @@ const PaymentPage: React.FC = () => {
         setSelectedMethod('upi');
         speak('UPI payment method selected. Please enter your UPI ID.');
         break;
-      case 'BANK_TRANSFER':
-        setSelectedMethod('bank');
-        speak('Bank transfer selected. Please enter your bank details.');
-        break;
-      case 'CARD':
-        setSelectedMethod('card');
-        speak('Card payment selected. Please enter your card details.');
+      case 'RAZORPAY':
+        setSelectedMethod('razorpay');
+        speak('Razor Pay selected. Please enter your Razor Pay details.');
         break;
       case 'GO_BACK':
       case 'GO_DASHBOARD':
@@ -97,13 +99,33 @@ const PaymentPage: React.FC = () => {
       return;
     }
 
+    if (!selectedGoal) {
+      setShowGoalSelection(true);
+      speak('Please select a goal to add this amount to.');
+      return;
+    }
+
     setIsProcessing(true);
-    speak(`Processing payment of ₹${amount}...`);
+    const goalName = goals.find(g => g.id === selectedGoal)?.name || 'General Savings';
+    speak(`Processing payment of ₹${amount} for ${goalName}...`);
 
     // Simulate payment processing
     setTimeout(() => {
       setIsProcessing(false);
-      speak(`Successfully added ₹${amount} to your savings!`);
+      speak(`Successfully added ₹${amount} to ${goalName}!`);
+      
+      // Store transaction data for dashboard update
+      const transactionData = {
+        amount: parseInt(amount),
+        goalId: selectedGoal,
+        goalName: goalName,
+        method: selectedMethod,
+        timestamp: new Date().toISOString()
+      };
+      
+      // In a real app, this would be stored in state management or API
+      localStorage.setItem('lastTransaction', JSON.stringify(transactionData));
+      
       setTimeout(() => {
         navigate('/dashboard');
       }, 2000);
@@ -119,16 +141,9 @@ const PaymentPage: React.FC = () => {
       popular: true
     },
     {
-      id: 'bank' as PaymentMethod,
-      name: 'Bank Transfer',
-      description: 'Direct bank transfer',
-      icon: Building2,
-      popular: false
-    },
-    {
-      id: 'card' as PaymentMethod,
-      name: 'Credit/Debit Card',
-      description: 'Pay with card',
+      id: 'razorpay' as PaymentMethod,
+      name: 'Razor Pay',
+      description: 'Pay using Razor Pay',
       icon: CreditCard,
       popular: false
     }
@@ -153,71 +168,19 @@ const PaymentPage: React.FC = () => {
           </div>
         );
 
-      case 'bank':
+      case 'razorpay':
         return (
           <div className="space-y-4">
             <div>
-              <Label htmlFor="bankAccount">Bank Account Number</Label>
+              <Label htmlFor="razorpayId">Razor Pay ID</Label>
               <Input
-                id="bankAccount"
+                id="razorpayId"
                 type="text"
-                placeholder="Account number"
-                value={paymentDetails.bankAccount || ''}
-                onChange={(e) => setPaymentDetails({ ...paymentDetails, bankAccount: e.target.value })}
+                placeholder="your-razorpay-id"
+                value={paymentDetails.razorpayId || ''}
+                onChange={(e) => setPaymentDetails({ ...paymentDetails, razorpayId: e.target.value })}
                 className="mt-1"
               />
-            </div>
-            <div>
-              <Label htmlFor="ifscCode">IFSC Code</Label>
-              <Input
-                id="ifscCode"
-                type="text"
-                placeholder="IFSC Code"
-                value={paymentDetails.ifscCode || ''}
-                onChange={(e) => setPaymentDetails({ ...paymentDetails, ifscCode: e.target.value })}
-                className="mt-1"
-              />
-            </div>
-          </div>
-        );
-
-      case 'card':
-        return (
-          <div className="space-y-4">
-            <div>
-              <Label htmlFor="cardNumber">Card Number</Label>
-              <Input
-                id="cardNumber"
-                type="text"
-                placeholder="1234 5678 9012 3456"
-                value={paymentDetails.cardNumber || ''}
-                onChange={(e) => setPaymentDetails({ ...paymentDetails, cardNumber: e.target.value })}
-                className="mt-1"
-              />
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <Label htmlFor="expiryDate">Expiry Date</Label>
-                <Input
-                  id="expiryDate"
-                  type="text"
-                  placeholder="MM/YY"
-                  value={paymentDetails.expiryDate || ''}
-                  onChange={(e) => setPaymentDetails({ ...paymentDetails, expiryDate: e.target.value })}
-                  className="mt-1"
-                />
-              </div>
-              <div>
-                <Label htmlFor="cvv">CVV</Label>
-                <Input
-                  id="cvv"
-                  type="text"
-                  placeholder="123"
-                  value={paymentDetails.cvv || ''}
-                  onChange={(e) => setPaymentDetails({ ...paymentDetails, cvv: e.target.value })}
-                  className="mt-1"
-                />
-              </div>
             </div>
           </div>
         );
@@ -370,8 +333,48 @@ const PaymentPage: React.FC = () => {
           </Card>
         </div>
 
+        {/* Goal Selection */}
+        {selectedMethod && amount && (
+          <Card className="mt-8 savings-card">
+            <CardHeader>
+              <CardTitle>Select Goal</CardTitle>
+              <CardDescription>
+                Choose which goal to add this amount to
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                {goals.map((goal) => (
+                  <Button
+                    key={goal.id}
+                    variant={selectedGoal === goal.id ? "default" : "outline"}
+                    className={`w-full h-auto p-4 justify-start transition-smooth ${
+                      selectedGoal === goal.id ? 'btn-primary' : 'hover:bg-accent'
+                    }`}
+                    onClick={() => setSelectedGoal(goal.id)}
+                  >
+                    <div className="flex items-center justify-between w-full">
+                      <div className="text-left">
+                        <div className="font-medium">{goal.name}</div>
+                        {goal.target > 0 && (
+                          <p className="text-sm text-muted-foreground">
+                            ₹{goal.current.toLocaleString()} / ₹{goal.target.toLocaleString()}
+                          </p>
+                        )}
+                      </div>
+                      {selectedGoal === goal.id && (
+                        <Check className="h-5 w-5" />
+                      )}
+                    </div>
+                  </Button>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
         {/* Payment Details Form */}
-        {selectedMethod && (
+        {selectedMethod && selectedGoal && (
           <Card className="mt-8 savings-card">
             <CardHeader>
               <CardTitle>Payment Details</CardTitle>
@@ -398,7 +401,7 @@ const PaymentPage: React.FC = () => {
                 ) : (
                   <>
                     <Plus className="h-4 w-4 mr-2" />
-                    Add ₹{amount ? parseInt(amount).toLocaleString() : '0'}
+                    Add ₹{amount ? parseInt(amount).toLocaleString() : '0'} to {goals.find(g => g.id === selectedGoal)?.name}
                   </>
                 )}
               </Button>

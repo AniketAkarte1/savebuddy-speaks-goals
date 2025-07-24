@@ -26,6 +26,7 @@ import LanguageSelector from '@/components/LanguageSelector';
 import HoverExplainer from '@/components/HoverExplainer';
 import GoalModal from '@/components/GoalModal';
 import DashboardCharts from '@/components/DashboardCharts';
+import InvestmentModal from '@/components/InvestmentModal';
 import ChatBot from '@/components/ChatBot';
 import { useVoiceInteraction } from '@/hooks/useVoiceInteraction';
 import { useToast } from '@/hooks/use-toast';
@@ -45,7 +46,7 @@ const Dashboard: React.FC = () => {
   const { speak } = useVoiceInteraction();
   const { toast } = useToast();
 
-  const [savingsData] = useState({
+  const [savingsData, setSavingsData] = useState({
     totalSavings: 15750,
     weeklyGrowth: 8.5,
     monthlyGrowth: 12.3,
@@ -83,6 +84,8 @@ const Dashboard: React.FC = () => {
 
   const [isGoalModalOpen, setIsGoalModalOpen] = useState(false);
   const [showCharts, setShowCharts] = useState(false);
+  const [isInvestmentModalOpen, setIsInvestmentModalOpen] = useState(false);
+  const [completedGoalForInvestment, setCompletedGoalForInvestment] = useState<{id: string; name: string; amount: number} | null>(null);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -90,6 +93,44 @@ const Dashboard: React.FC = () => {
     }, 1000);
     return () => clearTimeout(timer);
   }, [speak, t]);
+
+  // Check for completed transactions and update data
+  useEffect(() => {
+    const lastTransaction = localStorage.getItem('lastTransaction');
+    if (lastTransaction) {
+      const transaction = JSON.parse(lastTransaction);
+      
+      // Update total savings
+      setSavingsData(prev => ({
+        ...prev,
+        totalSavings: prev.totalSavings + transaction.amount
+      }));
+
+      // Update goal current amount
+      setGoals(prev => prev.map(goal => 
+        goal.id === transaction.goalId 
+          ? { ...goal, current: goal.current + transaction.amount }
+          : goal
+      ));
+
+      // Clear the transaction from localStorage
+      localStorage.removeItem('lastTransaction');
+      
+      // Check if goal is completed
+      const updatedGoal = goals.find(g => g.id === transaction.goalId);
+      if (updatedGoal && (updatedGoal.current + transaction.amount) >= updatedGoal.target) {
+        setTimeout(() => {
+          setCompletedGoalForInvestment({
+            id: updatedGoal.id,
+            name: updatedGoal.name,
+            amount: updatedGoal.target
+          });
+          setIsInvestmentModalOpen(true);
+          speak(`Congratulations! You've completed your ${updatedGoal.name} goal. Would you like to explore investment options?`);
+        }, 2000);
+      }
+    }
+  }, [goals, speak]);
 
   const handleVoiceCommand = (command: string, transcript: string) => {
     switch (command) {
@@ -171,8 +212,8 @@ const Dashboard: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 py-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
-                <img src="/src/assets/gullak_logo.png" alt="Gullak" className="h-12 w-12 object-contain" />
+              <div className="flex items-center justify-center">
+                <img src="/src/assets/gullak_logo.png" alt="Gullak" className="h-16 w-16 object-contain" />
               </div>
               <div>
                 <h1 className="text-2xl font-bold text-white">Gullak</h1>
@@ -452,10 +493,27 @@ const Dashboard: React.FC = () => {
                           </p>
                         </div>
                         <div className="flex items-center space-x-2">
-                          <Badge variant="secondary" className="flex items-center space-x-1">
-                            <Calendar className="h-3 w-3" />
-                            <span>{daysLeft} {t('goals.daysLeft')}</span>
-                          </Badge>
+                          {progress >= 100 ? (
+                            <Button
+                              size="sm"
+                              className="btn-primary"
+                              onClick={() => {
+                                setCompletedGoalForInvestment({
+                                  id: goal.id,
+                                  name: goal.name,
+                                  amount: goal.target
+                                });
+                                setIsInvestmentModalOpen(true);
+                              }}
+                            >
+                              Invest Now
+                            </Button>
+                          ) : (
+                            <Badge variant="secondary" className="flex items-center space-x-1">
+                              <Calendar className="h-3 w-3" />
+                              <span>{daysLeft} {t('goals.daysLeft')}</span>
+                            </Badge>
+                          )}
                         </div>
                       </div>
                       
@@ -465,6 +523,11 @@ const Dashboard: React.FC = () => {
                           <span>{progress.toFixed(1)}%</span>
                         </div>
                         <Progress value={progress} className="h-2" />
+                        {progress >= 100 && (
+                          <div className="text-success text-sm font-medium">
+                            🎉 Goal Completed! Ready for investment.
+                          </div>
+                        )}
                       </div>
                     </div>
                   </HoverExplainer>
@@ -498,6 +561,14 @@ const Dashboard: React.FC = () => {
           </CardContent>
         </Card>
       </div>
+
+
+      {/* Investment Modal */}
+      <InvestmentModal
+        isOpen={isInvestmentModalOpen}
+        onClose={() => setIsInvestmentModalOpen(false)}
+        completedGoal={completedGoalForInvestment}
+      />
 
       {/* ChatBot */}
       <ChatBot 
