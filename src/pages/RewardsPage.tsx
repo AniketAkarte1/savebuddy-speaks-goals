@@ -19,6 +19,7 @@ import {
 } from 'lucide-react';
 import VoiceButton from '@/components/VoiceButton';
 import LanguageSelector from '@/components/LanguageSelector';
+import ChatBot from '@/components/ChatBot';
 import { useVoiceInteraction } from '@/hooks/useVoiceInteraction';
 
 interface Reward {
@@ -479,7 +480,7 @@ const RewardsPage: React.FC = () => {
       <ChatBot 
         isLoggedIn={true} 
         userAccountData={{
-          savings: savingsData.totalSavings,
+          savings: 15750,
           goals: [],
           totalSaved: totalEarned
         }}

@@ -321,7 +321,7 @@ const PaymentPage: React.FC = () => {
           {/* Payment Methods */}
           <Card className="savings-card">
             <CardHeader>
-              <CardTitle>{t('payments.selectMethod')}</CardTitle>
+              <CardTitle>Payment Method</CardTitle>
               <CardDescription>
                 Choose your preferred payment method
               </CardDescription>

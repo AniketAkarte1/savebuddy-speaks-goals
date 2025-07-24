@@ -212,11 +212,11 @@ const ChatBot: React.FC<ChatBotProps> = ({ isLoggedIn = false, userAccountData }
 
   return (
     <>
-      {/* Chat Toggle Button - Fixed positioning */}
+      {/* Chat Toggle Button - Fixed positioning above voice button */}
       <Button
         onClick={() => setIsOpen(!isOpen)}
         className={cn(
-          "fixed bottom-6 right-6 z-50 rounded-full w-16 h-16 shadow-large",
+          "fixed bottom-24 right-6 z-50 rounded-full w-14 h-14 shadow-large",
           "bg-gradient-primary hover:shadow-glow transition-all duration-300",
           isOpen && "scale-95"
         )}
@@ -224,19 +224,25 @@ const ChatBot: React.FC<ChatBotProps> = ({ isLoggedIn = false, userAccountData }
         style={{ zIndex: 9999 }}
       >
         {isOpen ? (
-          <X className="h-6 w-6 text-white" />
+          <X className="h-5 w-5 text-white" />
         ) : (
           <div className="relative">
             <img 
               src="/src/assets/gullak_logo.png" 
               alt="Gullak Assistant" 
               className={cn(
-                "h-8 w-8 object-contain transition-transform duration-2000",
-                isAnimating ? "animate-spin" : "animate-pulse"
+                "h-7 w-7 object-contain transition-transform duration-500",
+                "hover:rotate-12"
               )}
+              style={{
+                animation: isAnimating ? 'none' : 'chatBotPulse 2s ease-in-out infinite'
+              }}
             />
-            <div className="absolute inset-0 border-2 border-accent/30 rounded-full animate-spin" />
-            <div className="absolute -top-1 -right-1 w-3 h-3 bg-accent rounded-full animate-pulse" />
+            <div className="absolute inset-0 border-2 border-accent/30 rounded-full opacity-30" 
+                 style={{
+                   animation: 'chatBotPulse 2s ease-in-out infinite reverse'
+                 }} 
+            />
           </div>
         )}
       </Button>
@@ -244,7 +250,7 @@ const ChatBot: React.FC<ChatBotProps> = ({ isLoggedIn = false, userAccountData }
       {/* Chat Window - Fixed positioning */}
       {isOpen && (
         <Card className={cn(
-          "fixed bottom-24 right-6 z-40 w-80 h-96",
+          "fixed bottom-40 right-6 z-40 w-80 h-96",
           "shadow-large border-0 bg-card/95 backdrop-blur-sm",
           "animate-scale-in"
         )}
