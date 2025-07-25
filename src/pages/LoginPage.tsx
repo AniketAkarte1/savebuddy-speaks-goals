@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
@@ -6,7 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
-import { PiggyBank, Mail, Lock } from 'lucide-react';
+import { PiggyBank, Mail, Lock, RefreshCw } from 'lucide-react';
 import VoiceButton from '@/components/VoiceButton';
 import LanguageSelector from '@/components/LanguageSelector';
 import ChatBot from '@/components/ChatBot';
@@ -16,6 +16,32 @@ const LoginPage: React.FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { speak } = useVoiceInteraction();
+  const [captcha, setCaptcha] = useState('');
+  const [captchaInput, setCaptchaInput] = useState('');
+  const [captchaValid, setCaptchaValid] = useState(false);
+
+  // Generate simple captcha
+  const generateCaptcha = () => {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    let result = '';
+    for (let i = 0; i < 5; i++) {
+      result += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    setCaptcha(result);
+    setCaptchaInput('');
+    setCaptchaValid(false);
+  };
+
+  // Initialize captcha on load
+  useEffect(() => {
+    generateCaptcha();
+  }, []);
+
+  // Validate captcha
+  const validateCaptcha = (input: string) => {
+    setCaptchaInput(input);
+    setCaptchaValid(input.toUpperCase() === captcha);
+  };
 
   // Welcome message when page loads
   useEffect(() => {
@@ -43,6 +69,10 @@ const LoginPage: React.FC = () => {
   };
 
   const handleLogin = () => {
+    if (!captchaValid) {
+      speak('Please enter the correct captcha first.');
+      return;
+    }
     // In a real app, this would validate credentials
     speak('Logging you in...');
     setTimeout(() => {
@@ -150,10 +180,39 @@ const LoginPage: React.FC = () => {
               </div>
             </div>
 
+            {/* Captcha Section */}
+            <div className="space-y-3">
+              <Label htmlFor="captcha">{t('auth.captcha')}</Label>
+              <div className="flex items-center space-x-3">
+                <div className="flex-1 bg-muted p-3 rounded-md border text-center font-mono text-lg tracking-widest select-none">
+                  {captcha}
+                </div>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="icon"
+                  onClick={generateCaptcha}
+                  aria-label="Refresh captcha"
+                >
+                  <RefreshCw className="h-4 w-4" />
+                </Button>
+              </div>
+              <Input
+                id="captcha"
+                type="text"
+                placeholder={t('auth.enterCaptcha')}
+                value={captchaInput}
+                onChange={(e) => validateCaptcha(e.target.value)}
+                className={`transition-smooth ${captchaValid ? 'border-green-500' : captchaInput ? 'border-red-500' : ''}`}
+                aria-label={t('auth.enterCaptcha')}
+              />
+            </div>
+
             <Button 
               onClick={handleLogin}
               className="w-full btn-primary"
               size="lg"
+              disabled={!captchaValid}
               aria-label={t('auth.login')}
             >
               {t('auth.login')}

@@ -31,13 +31,16 @@ export const VoiceButton: React.FC<VoiceButtonProps> = ({
 
   // Handle voice command processing
   useEffect(() => {
-    if (voiceState.transcript && !voiceState.isListening && !voiceState.isProcessing) {
+    if (voiceState.transcript && !voiceState.isListening && !voiceState.isProcessing && onCommand) {
       const command = processCommand(voiceState.transcript);
-      if (command && onCommand) {
+      if (command) {
         onCommand(command, voiceState.transcript);
+      } else {
+        // If no command matched, provide feedback
+        speak(t('audio.didNotUnderstand', { transcript: voiceState.transcript }));
       }
     }
-  }, [voiceState.transcript, voiceState.isListening, voiceState.isProcessing, processCommand, onCommand]);
+  }, [voiceState.transcript, voiceState.isListening, voiceState.isProcessing, processCommand, onCommand, speak, t]);
 
   // Auto-speak guide text when component mounts
   useEffect(() => {

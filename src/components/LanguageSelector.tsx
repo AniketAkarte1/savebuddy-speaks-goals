@@ -14,7 +14,8 @@ const languages = [
   { code: 'es', name: 'Spanish', nativeName: 'Español' },
   { code: 'de', name: 'German', nativeName: 'Deutsch' },
   { code: 'mr', name: 'Marathi', nativeName: 'मराठी' },
-  { code: 'hi', name: 'Hindi', nativeName: 'हिन्दी' }
+  { code: 'hi', name: 'Hindi', nativeName: 'हिन्दी' },
+  { code: 'bh', name: 'Bhojpuri', nativeName: 'भोजपुरी' }
 ];
 
 interface LanguageSelectorProps {

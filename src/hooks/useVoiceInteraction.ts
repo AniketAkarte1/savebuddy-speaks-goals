@@ -95,6 +95,19 @@ export const useVoiceInteraction = () => {
       { pattern: /शॉपिंग से बचत|खरीदारी बचत|राउंड अप/i, action: 'SAVINGS_SHOPPING', description: 'शॉपिंग से बचत खोलें' },
       { pattern: /मेरे लेनदेन|लेनदेन|लेनदेन इतिहास/i, action: 'MY_TRANSACTIONS', description: 'लेनदेन इतिहास देखें' },
       { pattern: /रिवार्ड देखें|मेरे रिवार्ड|रिवार्ड/i, action: 'VIEW_REWARDS', description: 'रिवार्ड और पॉइंट्स देखें' },
+    ],
+    bh: [
+      { pattern: /पइसा जोड़ल जाव|जमा करल जाव|पइसा बचावल जाव/i, action: 'ADD_MONEY', description: 'बचत में पइसा जोड़ल जाव' },
+      { pattern: /लक्ष्य बनावल जाव|लक्ष्य सेट करल जाव|नया लक्ष्य/i, action: 'CREATE_GOAL', description: 'बचत लक्ष्य बनावल जाव' },
+      { pattern: /बैलेंस चेक करल जाव|बैलेंस देखावल जाव|हमार बचत/i, action: 'CHECK_BALANCE', description: 'अभी के बैलेंस चेक करल जाव' },
+      { pattern: /इनाम देखावल जाव|हमार इनाम|पॉइंट्स/i, action: 'SHOW_REWARDS', description: 'इनाम पॉइंट्स देखावल जाव' },
+      { pattern: /सेटिंग्स खोलल जाव|सेटिंग्स|प्राथमिकता/i, action: 'OPEN_SETTINGS', description: 'सेटिंग्स खोलल जाव' },
+      { pattern: /डैशबोर्ड|घर|मुख्य/i, action: 'GO_DASHBOARD', description: 'डैशबोर्ड पर जाएल जाव' },
+      { pattern: /चार्ट देखावल जाव|चार्ट|आंकड़ा|ग्राफ/i, action: 'SHOW_CHARTS', description: 'चार्ट देखावल/छुपावल जाव' },
+      { pattern: /मदद|आदेश|हम का कहल सकत बानी/i, action: 'SHOW_HELP', description: 'आवाज आदेश देखावल जाव' },
+      { pattern: /खरीदारी से बचत|शॉपिंग बचत|राउंड अप/i, action: 'SAVINGS_SHOPPING', description: 'खरीदारी से बचत खोलल जाव' },
+      { pattern: /हमार लेनदेन|लेनदेन|लेनदेन इतिहास/i, action: 'MY_TRANSACTIONS', description: 'लेनदेन इतिहास देखल जाव' },
+      { pattern: /इनाम देखल जाव|हमार इनाम|इनाम/i, action: 'VIEW_REWARDS', description: 'इनाम आ पॉइंट्स देखल जाव' },
     ]
   };
 
@@ -112,6 +125,7 @@ export const useVoiceInteraction = () => {
       recognition.interimResults = true;
       recognition.lang = i18n.language === 'mr' ? 'mr-IN' : 
                         i18n.language === 'hi' ? 'hi-IN' :
+                        i18n.language === 'bh' ? 'hi-IN' :
                         i18n.language === 'es' ? 'es-ES' :
                         i18n.language === 'de' ? 'de-DE' : 'en-US';
 
@@ -188,6 +202,7 @@ export const useVoiceInteraction = () => {
       utterance.lang = lang || 
                       (i18n.language === 'mr' ? 'mr-IN' : 
                        i18n.language === 'hi' ? 'hi-IN' :
+                       i18n.language === 'bh' ? 'hi-IN' :
                        i18n.language === 'es' ? 'es-ES' :
                        i18n.language === 'de' ? 'de-DE' : 'en-US');
       utterance.rate = 0.9;
